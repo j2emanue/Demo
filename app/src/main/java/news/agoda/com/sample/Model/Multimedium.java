@@ -1,0 +1,142 @@
+
+package news.agoda.com.sample.Model;
+
+import android.os.Parcel;
+import android.os.Parcelable;
+import android.os.Parcelable.Creator;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+public class Multimedium implements Parcelable
+{
+
+    @SerializedName("url")
+    @Expose
+    private String url;
+    @SerializedName("format")
+    @Expose
+    private String format;
+    @SerializedName("height")
+    @Expose
+    private Integer height;
+    @SerializedName("width")
+    @Expose
+    private Integer width;
+    @SerializedName("type")
+    @Expose
+    private String type;
+    @SerializedName("subtype")
+    @Expose
+    private String subtype;
+    @SerializedName("caption")
+    @Expose
+    private String caption;
+    @SerializedName("copyright")
+    @Expose
+    private String copyright;
+    public final static Parcelable.Creator<Multimedium> CREATOR = new Creator<Multimedium>() {
+
+
+        @SuppressWarnings({
+            "unchecked"
+        })
+        public Multimedium createFromParcel(Parcel in) {
+            Multimedium instance = new Multimedium();
+            instance.url = ((String) in.readValue((String.class.getClassLoader())));
+            instance.format = ((String) in.readValue((String.class.getClassLoader())));
+            instance.height = ((Integer) in.readValue((Integer.class.getClassLoader())));
+            instance.width = ((Integer) in.readValue((Integer.class.getClassLoader())));
+            instance.type = ((String) in.readValue((String.class.getClassLoader())));
+            instance.subtype = ((String) in.readValue((String.class.getClassLoader())));
+            instance.caption = ((String) in.readValue((String.class.getClassLoader())));
+            instance.copyright = ((String) in.readValue((String.class.getClassLoader())));
+            return instance;
+        }
+
+        public Multimedium[] newArray(int size) {
+            return (new Multimedium[size]);
+        }
+
+    }
+    ;
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getFormat() {
+        return format;
+    }
+
+    public void setFormat(String format) {
+        this.format = format;
+    }
+
+    public Integer getHeight() {
+        return height;
+    }
+
+    public void setHeight(Integer height) {
+        this.height = height;
+    }
+
+    public Integer getWidth() {
+        return width;
+    }
+
+    public void setWidth(Integer width) {
+        this.width = width;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getSubtype() {
+        return subtype;
+    }
+
+    public void setSubtype(String subtype) {
+        this.subtype = subtype;
+    }
+
+    public String getCaption() {
+        return caption;
+    }
+
+    public void setCaption(String caption) {
+        this.caption = caption;
+    }
+
+    public String getCopyright() {
+        return copyright;
+    }
+
+    public void setCopyright(String copyright) {
+        this.copyright = copyright;
+    }
+
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeValue(url);
+        dest.writeValue(format);
+        dest.writeValue(height);
+        dest.writeValue(width);
+        dest.writeValue(type);
+        dest.writeValue(subtype);
+        dest.writeValue(caption);
+        dest.writeValue(copyright);
+    }
+
+    public int describeContents() {
+        return  0;
+    }
+
+}
