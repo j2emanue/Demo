@@ -7,19 +7,19 @@ import android.widget.ListView;
 import news.agoda.com.sample.Model.NewsEntities;
 import news.agoda.com.sample.contracts.IMainActivityViewContract;
 import news.agoda.com.sample.contracts.IMainPresenterContract;
-import news.agoda.com.sample.contracts.Interactor.ModelInteractor;
+import news.agoda.com.sample.contracts.Services.NewsService;
 
 /**
  * Created by jeffery.emanuel on 2017-02-24.
  */
-public class MainActivityPresenter implements IMainPresenterContract {
+public class MainActivityPresenter implements IMainPresenterContract, Callback {
 
     IMainActivityViewContract view;//todo set up a weak reference to View to avoid leakage
-    ModelInteractor interactor;
+    NewsService interactor;
 
-    public MainActivityPresenter(IMainActivityViewContract view) {
+    public MainActivityPresenter(IMainActivityViewContract view, NewsService interactor) {
         this.view = view;
-        this.interactor = new ModelInteractor(this);
+        this.interactor = interactor;
     }
 
 
@@ -30,18 +30,22 @@ public class MainActivityPresenter implements IMainPresenterContract {
 
     public void onRequestComplete(final NewsEntities newsEntities) {
 
-                view.dataSetUpdated(newsEntities.getResults());
+        view.dataSetUpdated(newsEntities.getResults());
 
-                ListView listView = view.getNewsListView();
-                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        ListView listView = view.getNewsListView();
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view1, int position, long id) {
-                        view.goToDetailsActivity(newsEntities.getResults().get(position));
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view1, int position, long id) {
+                view.goToDetailsActivity(newsEntities.getResults().get(position));
 
-                    }
-                });
+            }
+        });
 
     }
 
+    @Override
+    public void onResult(final NewsEntities newsEntities) {
+        onRequestComplete(newsEntities);
+    }
 }

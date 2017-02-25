@@ -1,102 +1,68 @@
 
 package news.agoda.com.sample.Model;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import org.parceler.Parcel;
+
 import java.util.List;
 
-public class Result implements Parcelable
-{
+@Parcel
+public class Result {
 
     @SerializedName("section")
     @Expose
-    private String section;
+    public String section;
     @SerializedName("subsection")
     @Expose
-    private String subsection;
+    public String subsection;
     @SerializedName("title")
     @Expose
-    private String title;
+    public String title;
     @SerializedName("abstract")
     @Expose
-    private String _abstract;
+    public String _abstract;
     @SerializedName("url")
     @Expose
-    private String url;
+    public String url;
     @SerializedName("byline")
     @Expose
-    private String byline;
+    public String byline;
     @SerializedName("item_type")
     @Expose
-    private String itemType;
+    public String itemType;
     @SerializedName("updated_date")
     @Expose
-    private String updatedDate;
+    public String updatedDate;
     @SerializedName("created_date")
     @Expose
-    private String createdDate;
+    public String createdDate;
     @SerializedName("published_date")
     @Expose
-    private String publishedDate;
+    public String publishedDate;
     @SerializedName("material_type_facet")
-    @Expose
-    private String materialTypeFacet;
+    @Expose(serialize = false, deserialize = false)
+    public String materialTypeFacet;
     @SerializedName("kicker")
     @Expose
-    private String kicker;
+    public String kicker;
     @SerializedName("des_facet")
     @Expose(serialize = false, deserialize = false)
-    private List<String> desFacet = null;
+    public List<String> desFacet = null;
     @SerializedName("org_facet")
     @Expose(serialize = false, deserialize = false)
-    private String orgFacet;
+    public String orgFacet;
     @SerializedName("per_facet")
     @Expose(serialize = false, deserialize = false)
-    private String perFacet;
+    public String perFacet;
     @SerializedName("geo_facet")
     @Expose(serialize = false, deserialize = false)
-    private List<String> geoFacet = null;
+    public List<String> geoFacet = null;
+
     @SerializedName("multimedia")
     @Expose
-    private List<Multimedium> multimedia = null;
-    public final static Parcelable.Creator<Result> CREATOR = new Creator<Result>() {
-
-
-        @SuppressWarnings({
-                "unchecked"
-        })
-        public Result createFromParcel(Parcel in) {
-            Result instance = new Result();
-            instance.section = ((String) in.readValue((String.class.getClassLoader())));
-            instance.subsection = ((String) in.readValue((String.class.getClassLoader())));
-            instance.title = ((String) in.readValue((String.class.getClassLoader())));
-            instance._abstract = ((String) in.readValue((String.class.getClassLoader())));
-            instance.url = ((String) in.readValue((String.class.getClassLoader())));
-            instance.byline = ((String) in.readValue((String.class.getClassLoader())));
-            instance.itemType = ((String) in.readValue((String.class.getClassLoader())));
-            instance.updatedDate = ((String) in.readValue((String.class.getClassLoader())));
-            instance.createdDate = ((String) in.readValue((String.class.getClassLoader())));
-            instance.publishedDate = ((String) in.readValue((String.class.getClassLoader())));
-            instance.materialTypeFacet = ((String) in.readValue((String.class.getClassLoader())));
-            instance.kicker = ((String) in.readValue((String.class.getClassLoader())));
-            in.readList(instance.desFacet, (java.lang.String.class.getClassLoader()));
-            instance.orgFacet = ((String) in.readValue((String.class.getClassLoader())));
-            instance.perFacet = ((String) in.readValue((String.class.getClassLoader())));
-            in.readList(instance.geoFacet, (java.lang.String.class.getClassLoader()));
-            in.readList(instance.multimedia, (Multimedium.class.getClassLoader()));
-            return instance;
-        }
-
-        public Result[] newArray(int size) {
-            return (new Result[size]);
-        }
-
-    }
-            ;
+    public List<Multimedium> multimedia = null;
 
     public String getSection() {
         return section;
@@ -232,30 +198,6 @@ public class Result implements Parcelable
 
     public void setMultimedia(List<Multimedium> multimedia) {
         this.multimedia = multimedia;
-    }
-
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeValue(section);
-        dest.writeValue(subsection);
-        dest.writeValue(title);
-        dest.writeValue(_abstract);
-        dest.writeValue(url);
-        dest.writeValue(byline);
-        dest.writeValue(itemType);
-        dest.writeValue(updatedDate);
-        dest.writeValue(createdDate);
-        dest.writeValue(publishedDate);
-        dest.writeValue(materialTypeFacet);
-        dest.writeValue(kicker);
-        dest.writeList(desFacet);
-        dest.writeValue(orgFacet);
-        dest.writeValue(perFacet);
-        dest.writeList(geoFacet);
-        dest.writeList(multimedia);
-    }
-
-    public int describeContents() {
-        return 0;
     }
 
 }

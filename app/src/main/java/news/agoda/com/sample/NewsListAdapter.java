@@ -23,12 +23,6 @@ public class NewsListAdapter extends ArrayAdapter {
     Context context;
     List<Result> results;
 
-    //cache our views
-    private static class ViewHolder {
-        TextView newsTitle;
-        DraweeView imageView;
-    }
-
     public NewsListAdapter(Context context, int resource, List<Result> results) {
         super(context, resource, results);
         this.context = context;
@@ -56,13 +50,21 @@ public class NewsListAdapter extends ArrayAdapter {
         Result newsEntity = (Result) getItem(position);
         List<Multimedium> mediaEntityList = newsEntity.getMultimedia();
 
-        Multimedium mediaEntity = mediaEntityList.get(0);
-        thumbnailURL = mediaEntity.getUrl();
+        if(!mediaEntityList.isEmpty()) {
+            Multimedium mediaEntity = mediaEntityList.get(0);
+            thumbnailURL = mediaEntity.getUrl();
 
-        viewHolder.newsTitle.setText(newsEntity.getTitle());
-        DraweeController draweeController = Fresco.newDraweeControllerBuilder().setImageRequest(ImageRequest.fromUri
-                (Uri.parse(thumbnailURL))).setOldController(viewHolder.imageView.getController()).build();
-        viewHolder.imageView.setController(draweeController);
+            viewHolder.newsTitle.setText(newsEntity.getTitle());
+            DraweeController draweeController = Fresco.newDraweeControllerBuilder().setImageRequest(ImageRequest.fromUri
+                    (Uri.parse(thumbnailURL))).setOldController(viewHolder.imageView.getController()).build();
+            viewHolder.imageView.setController(draweeController);
+        }
         return convertView;
+    }
+
+    //cache our views
+    private static class ViewHolder {
+        TextView newsTitle;
+        DraweeView imageView;
     }
 }

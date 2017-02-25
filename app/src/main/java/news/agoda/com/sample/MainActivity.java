@@ -9,18 +9,22 @@ import android.widget.ListView;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 
+import org.parceler.Parcels;
+
 import java.util.List;
 
+import news.agoda.com.sample.Constants.Constants;
 import news.agoda.com.sample.Model.Result;
 import news.agoda.com.sample.contracts.IMainActivityViewContract;
+import news.agoda.com.sample.contracts.Services.NewsService;
 
 public class MainActivity
         extends ListActivity
         implements IMainActivityViewContract {
 
+    private static final String TAG = MainActivity.class.getSimpleName();
     MainActivityPresenter presenter;
     NewsListAdapter adapter;
-    private static final String TAG = MainActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +32,10 @@ public class MainActivity
         setContentView(R.layout.activity_main);
         Fresco.initialize(this);
 
-        presenter = new MainActivityPresenter(this);
+        NewsService newsService = new NewsService();
+        presenter = new MainActivityPresenter(this, newsService);
+        newsService.setCallBack(presenter);
+
         presenter.loadResource();
     }
 
@@ -70,7 +77,10 @@ public class MainActivity
     @Override
     public void goToDetailsActivity(Result data) {
         Intent intent = new Intent(MainActivity.this, DetailViewActivity.class);
-        intent.putExtra("newsInfo", data);
+
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(Constants.EXTRA_DETAILS, Parcels.wrap(data));
+        intent.putExtras(bundle);
         startActivity(intent);
     }
 }

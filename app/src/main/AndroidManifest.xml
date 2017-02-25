@@ -18,7 +18,9 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".DetailViewActivity"/>
+        <activity
+            android:launchMode="singleTask"
+            android:name=".DetailViewActivity"/>
     </application>
 
 </manifest>

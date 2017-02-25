@@ -1,64 +1,38 @@
 
 package news.agoda.com.sample.Model;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.os.Parcelable.Creator;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Multimedium implements Parcelable
-{
+import org.parceler.Parcel;
+
+@Parcel
+public class Multimedium {
 
     @SerializedName("url")
     @Expose
-    private String url;
+    public String url;
     @SerializedName("format")
     @Expose
-    private String format;
+    public String format;
     @SerializedName("height")
     @Expose
-    private Integer height;
+    public int height;
     @SerializedName("width")
     @Expose
-    private Integer width;
+    public int width;
     @SerializedName("type")
     @Expose
-    private String type;
+    public String type;
     @SerializedName("subtype")
     @Expose
-    private String subtype;
+    public String subtype;
     @SerializedName("caption")
     @Expose
-    private String caption;
+    public String caption;
     @SerializedName("copyright")
     @Expose
-    private String copyright;
-    public final static Parcelable.Creator<Multimedium> CREATOR = new Creator<Multimedium>() {
-
-
-        @SuppressWarnings({
-            "unchecked"
-        })
-        public Multimedium createFromParcel(Parcel in) {
-            Multimedium instance = new Multimedium();
-            instance.url = ((String) in.readValue((String.class.getClassLoader())));
-            instance.format = ((String) in.readValue((String.class.getClassLoader())));
-            instance.height = ((Integer) in.readValue((Integer.class.getClassLoader())));
-            instance.width = ((Integer) in.readValue((Integer.class.getClassLoader())));
-            instance.type = ((String) in.readValue((String.class.getClassLoader())));
-            instance.subtype = ((String) in.readValue((String.class.getClassLoader())));
-            instance.caption = ((String) in.readValue((String.class.getClassLoader())));
-            instance.copyright = ((String) in.readValue((String.class.getClassLoader())));
-            return instance;
-        }
-
-        public Multimedium[] newArray(int size) {
-            return (new Multimedium[size]);
-        }
-
-    }
-    ;
+    public String copyright;
 
     public String getUrl() {
         return url;
@@ -76,19 +50,19 @@ public class Multimedium implements Parcelable
         this.format = format;
     }
 
-    public Integer getHeight() {
+    public int getHeight() {
         return height;
     }
 
-    public void setHeight(Integer height) {
+    public void setHeight(int height) {
         this.height = height;
     }
 
-    public Integer getWidth() {
+    public int getWidth() {
         return width;
     }
 
-    public void setWidth(Integer width) {
+    public void setWidth(int width) {
         this.width = width;
     }
 
@@ -122,21 +96,6 @@ public class Multimedium implements Parcelable
 
     public void setCopyright(String copyright) {
         this.copyright = copyright;
-    }
-
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeValue(url);
-        dest.writeValue(format);
-        dest.writeValue(height);
-        dest.writeValue(width);
-        dest.writeValue(type);
-        dest.writeValue(subtype);
-        dest.writeValue(caption);
-        dest.writeValue(copyright);
-    }
-
-    public int describeContents() {
-        return  0;
     }
 
 }

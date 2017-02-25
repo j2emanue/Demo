@@ -1,58 +1,34 @@
 
 package news.agoda.com.sample.Model;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import org.parceler.Parcel;
+
 import java.util.List;
 
-public class NewsEntities implements Parcelable
-{
+@Parcel
+public class NewsEntities {
 
     @SerializedName("status")
     @Expose
-    private String status;
+    public String status;
     @SerializedName("copyright")
     @Expose
-    private String copyright;
+    public String copyright;
     @SerializedName("section")
     @Expose
-    private String section;
+    public String section;
     @SerializedName("last_updated")
     @Expose
-    private String lastUpdated;
+    public String lastUpdated;
     @SerializedName("num_results")
     @Expose
-    private Integer numResults;
+    public int numResults;
     @SerializedName("results")
     @Expose
-    private List<Result> results = null;
-    public final static Parcelable.Creator<NewsEntities> CREATOR = new Creator<NewsEntities>() {
-
-
-        @SuppressWarnings({
-            "unchecked"
-        })
-        public NewsEntities createFromParcel(Parcel in) {
-            NewsEntities instance = new NewsEntities();
-            instance.status = ((String) in.readValue((String.class.getClassLoader())));
-            instance.copyright = ((String) in.readValue((String.class.getClassLoader())));
-            instance.section = ((String) in.readValue((String.class.getClassLoader())));
-            instance.lastUpdated = ((String) in.readValue((String.class.getClassLoader())));
-            instance.numResults = ((Integer) in.readValue((Integer.class.getClassLoader())));
-            in.readList(instance.results, (Result.class.getClassLoader()));
-            return instance;
-        }
-
-        public NewsEntities[] newArray(int size) {
-            return (new NewsEntities[size]);
-        }
-
-    }
-    ;
+    public List<Result> results = null;
 
     public String getStatus() {
         return status;
@@ -86,11 +62,11 @@ public class NewsEntities implements Parcelable
         this.lastUpdated = lastUpdated;
     }
 
-    public Integer getNumResults() {
+    public int getNumResults() {
         return numResults;
     }
 
-    public void setNumResults(Integer numResults) {
+    public void setNumResults(int numResults) {
         this.numResults = numResults;
     }
 
@@ -100,19 +76,6 @@ public class NewsEntities implements Parcelable
 
     public void setResults(List<Result> results) {
         this.results = results;
-    }
-
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeValue(status);
-        dest.writeValue(copyright);
-        dest.writeValue(section);
-        dest.writeValue(lastUpdated);
-        dest.writeValue(numResults);
-        dest.writeList(results);
-    }
-
-    public int describeContents() {
-        return  0;
     }
 
 }
