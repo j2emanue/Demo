@@ -1,10 +1,7 @@
 package news.agoda.com.sample;
 
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
-
 import news.agoda.com.sample.Model.NewsEntities;
+import news.agoda.com.sample.Model.Result;
 import news.agoda.com.sample.contracts.IMainActivityViewContract;
 import news.agoda.com.sample.contracts.IMainPresenterContract;
 import news.agoda.com.sample.contracts.Services.NewsService;
@@ -31,21 +28,14 @@ public class MainActivityPresenter implements IMainPresenterContract, Callback {
     public void onRequestComplete(final NewsEntities newsEntities) {
 
         view.dataSetUpdated(newsEntities.getResults());
-
-        ListView listView = view.getNewsListView();
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view1, int position, long id) {
-                view.goToDetailsActivity(newsEntities.getResults().get(position));
-
-            }
-        });
-
     }
 
     @Override
     public void onResult(final NewsEntities newsEntities) {
         onRequestComplete(newsEntities);
+    }
+
+    public void goToDetailsActivity(Result result) {
+        view.goToDetailsActivity(result);
     }
 }

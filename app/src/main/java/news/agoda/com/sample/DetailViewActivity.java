@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
@@ -17,13 +16,14 @@ import org.parceler.Parcels;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import news.agoda.com.sample.Constants.Constants;
 import news.agoda.com.sample.Model.Result;
 
 /**
  * News detail view
  */
-public class DetailViewActivity extends Activity implements View.OnClickListener {
+public class DetailViewActivity extends Activity {
     @BindView(R.id.title)
     TextView titleView;
     @BindView(R.id.summary_content)
@@ -31,8 +31,6 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
     @BindView(R.id.news_image)
     DraweeView imageView;
     private String mStoryURL = "";
-    @BindView(R.id.full_story_link)
-    Button fullStoryBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,10 +38,8 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
         setContentView(R.layout.activity_detail);
         ButterKnife.bind(this);
 
-        Result result = Parcels.unwrap(getIntent().getParcelableExtra(Constants.EXTRA_DETAILS));
-        fullStoryBtn.setOnClickListener(this);
+        Result result = Parcels.unwrap(getIntent().getParcelableExtra(Constants.EXTRA_DETAILS));//Todo: make this a field variable
         String title = result.getTitle();
-
         String imageURL = result.getMultimedia().get(0).getUrl();
         mStoryURL = result.getUrl();
         String summary = result.getAbstract();
@@ -65,9 +61,10 @@ public class DetailViewActivity extends Activity implements View.OnClickListener
     }
 
 
-    @Override
-    public void onClick(View v) {
-        
+    @OnClick(R.id.full_story_link)
+    public void onFullStoryBtnClicked(View v) {
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(mStoryURL));
+        startActivity(browserIntent);
     }
 }
 

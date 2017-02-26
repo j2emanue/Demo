@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
@@ -67,12 +69,22 @@ public class MainActivity
         adapter = new NewsListAdapter(MainActivity.this, R.layout.list_item_news, results);
         setListAdapter(adapter);
         adapter.notifyDataSetChanged();
+        setupOnClickListener(results);
     }
 
-    @Override
-    public ListView getNewsListView() {
-        return getListView();
+    private void setupOnClickListener(final List results) {
+
+        ListView listView = getListView();
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view1, int position, long id) {
+                presenter.goToDetailsActivity((Result) results.get(position));
+
+            }
+        });
     }
+
 
     @Override
     public void goToDetailsActivity(Result data) {

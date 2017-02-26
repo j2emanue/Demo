@@ -1,7 +1,5 @@
 package news.agoda.com.sample.contracts;
 
-import android.widget.ListView;
-
 import java.util.List;
 
 import news.agoda.com.sample.Model.Result;
@@ -12,7 +10,6 @@ import news.agoda.com.sample.Model.Result;
 
 public interface IMainActivityViewContract {
     void dataSetUpdated(List results);
-    ListView getNewsListView();
     void goToDetailsActivity(Result data);
 
 }

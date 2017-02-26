@@ -22,9 +22,8 @@ import news.agoda.com.sample.contracts.INewsServiceContract;
 
 public class NewsService implements INewsServiceContract {
 
-    // MainActivityPresenter presenter;
-    Gson gson;
-    Callback mCallback;
+    private Gson gson;
+    private Callback mCallback;
 
 
     public NewsService() {
@@ -33,9 +32,9 @@ public class NewsService implements INewsServiceContract {
 
     private static String readStream(InputStream in) {
         StringBuilder sb = new StringBuilder();
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(in));) {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
 
-            String nextLine = "";
+            String nextLine;
             while ((nextLine = reader.readLine()) != null) {
                 sb.append(nextLine);
             }
@@ -64,12 +63,18 @@ public class NewsService implements INewsServiceContract {
             @Override
             protected String doInBackground(String... params) {
                 String readStream = "";
+                HttpURLConnection con = null;
                 try {
                     URL url = new URL("https://api.myjson.com/bins/nl6jh");
-                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                    con = (HttpURLConnection) url.openConnection();
                     readStream = readStream(con.getInputStream());
                 } catch (Exception e) {
                     e.printStackTrace();
+                }
+
+                finally {
+                    if(con!=null)
+                    con.disconnect();
                 }
                 return readStream;
             }
@@ -82,17 +87,9 @@ public class NewsService implements INewsServiceContract {
 
             }
         }.execute();
-
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-
-            }
-        }).start();
     }
 
-    public void onRequestComplete(String data) {
+    private void onRequestComplete(String data) {
 
         data = data.replaceAll("\"multimedia\":\"\"", "\"multimedia\":[]");
         news.agoda.com.sample.Model.NewsEntities newsEntities = gson.fromJson(data, NewsEntities.class);
