@@ -8,4 +8,5 @@ public class Constants {
 
 
     public final static String EXTRA_DETAILS = "newsInfo";
+    public final static String EXTRA_RESULTS_KEY = "result";
 }

@@ -11,7 +11,7 @@ import java.util.List;
 import news.agoda.com.sample.Model.NewsEntities;
 import news.agoda.com.sample.Model.Result;
 import news.agoda.com.sample.contracts.IMainActivityViewContract;
-import news.agoda.com.sample.contracts.Services.NewsService;
+import news.agoda.com.sample.Services.NewsService;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.times;

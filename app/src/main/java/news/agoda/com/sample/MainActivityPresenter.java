@@ -1,10 +1,12 @@
 package news.agoda.com.sample;
 
+import android.widget.Toast;
+
 import news.agoda.com.sample.Model.NewsEntities;
 import news.agoda.com.sample.Model.Result;
 import news.agoda.com.sample.contracts.IMainActivityViewContract;
 import news.agoda.com.sample.contracts.IMainPresenterContract;
-import news.agoda.com.sample.contracts.Services.NewsService;
+import news.agoda.com.sample.Services.NewsService;
 
 /**
  * Created by jeffery.emanuel on 2017-02-24.
@@ -27,7 +29,10 @@ public class MainActivityPresenter implements IMainPresenterContract, Callback {
 
     public void onRequestComplete(final NewsEntities newsEntities) {
 
+        if(newsEntities!=null)
         view.dataSetUpdated(newsEntities.getResults());
+    else
+            view.showToast(R.string.error);
     }
 
     @Override

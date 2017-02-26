@@ -50,7 +50,7 @@ public class NewsListAdapter extends ArrayAdapter {
         Result newsEntity = (Result) getItem(position);
         List<Multimedium> mediaEntityList = newsEntity.getMultimedia();
 
-        if(!mediaEntityList.isEmpty()) {
+        if (!mediaEntityList.isEmpty()) {
             Multimedium mediaEntity = mediaEntityList.get(0);
             thumbnailURL = mediaEntity.getUrl();
 

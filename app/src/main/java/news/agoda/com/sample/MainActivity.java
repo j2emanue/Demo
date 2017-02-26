@@ -1,15 +1,12 @@
 package news.agoda.com.sample;
 
-import android.app.ListActivity;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
-
-import com.facebook.drawee.backends.pipeline.Fresco;
+import android.widget.Toast;
 
 import org.parceler.Parcels;
 
@@ -17,28 +14,50 @@ import java.util.List;
 
 import news.agoda.com.sample.Constants.Constants;
 import news.agoda.com.sample.Model.Result;
+import news.agoda.com.sample.Services.NewsService;
 import news.agoda.com.sample.contracts.IMainActivityViewContract;
-import news.agoda.com.sample.contracts.Services.NewsService;
+import news.agoda.com.sample.contracts.OnNewsItemSelectionChangeListener;
+
+import static news.agoda.com.sample.Constants.Constants.EXTRA_RESULTS_KEY;
 
 public class MainActivity
-        extends ListActivity
-        implements IMainActivityViewContract {
+        extends FragmentActivity
+        implements IMainActivityViewContract, OnNewsItemSelectionChangeListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
     MainActivityPresenter presenter;
-    NewsListAdapter adapter;
+    boolean isTwoPane;
+    private List mDataSource;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Fresco.initialize(this);
+        isTwoPane = getResources().getBoolean(R.bool.twoPaneMode);
 
         NewsService newsService = new NewsService();
         presenter = new MainActivityPresenter(this, newsService);
         newsService.setCallBack(presenter);
 
-        presenter.loadResource();
+        if (savedInstanceState == null) {
+        if (findViewById(R.id.fragment_container) != null) {
+
+                // Create an Instance of Fragment
+                NewsListFragment newsListFragment = new NewsListFragment();
+                newsListFragment.setArguments(getIntent().getExtras());
+                getFragmentManager().beginTransaction()
+                        .add(R.id.fragment_container, newsListFragment, "newsListFragment")
+                        .commit();
+            }
+            presenter.loadResource();
+        }
+        else{
+
+        }
+
+
+
+
     }
 
     @Override
@@ -66,33 +85,77 @@ public class MainActivity
 
     @Override
     public void dataSetUpdated(List results) {
-        adapter = new NewsListAdapter(MainActivity.this, R.layout.list_item_news, results);
-        setListAdapter(adapter);
-        adapter.notifyDataSetChanged();
-        setupOnClickListener(results);
+        setDataSource(results);
+updateNewsListFragment();
+
     }
 
+    private void updateNewsListFragment() {
+        NewsListFragment newsListFragment = (NewsListFragment) getFragmentManager().findFragmentByTag("newsListFragment");
+        newsListFragment.refreshList(getDataSource());
+    }
+
+    /*
     private void setupOnClickListener(final List results) {
 
-        ListView listView = getListView();
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view1, int position, long id) {
-                presenter.goToDetailsActivity((Result) results.get(position));
+             //   presenter.goToDetailsActivity((Result) results.get(position));
 
             }
         });
     }
-
+*/
 
     @Override
     public void goToDetailsActivity(Result data) {
-        Intent intent = new Intent(MainActivity.this, DetailViewActivity.class);
+        Intent intent = new Intent(MainActivity.this, DetailViewFragment.class);
 
         Bundle bundle = new Bundle();
         bundle.putParcelable(Constants.EXTRA_DETAILS, Parcels.wrap(data));
         intent.putExtras(bundle);
         startActivity(intent);
     }
+
+    @Override
+    public void showToast(int resource) {
+        Toast.makeText(this,resource,Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void OnSelectionChanged(int index) {
+
+       Result result =  (Result)getDataSource().get(index);
+        if(isTwoPane){
+            DetailViewFragment descriptionFragment = (DetailViewFragment) getFragmentManager()
+                    .findFragmentById(R.id.description_fragment);
+            descriptionFragment.updateResult(result);
+        }
+       else{
+            DetailViewFragment newDesriptionFragment = new DetailViewFragment();
+        Bundle args = new Bundle();
+
+        args.putParcelable(EXTRA_RESULTS_KEY, Parcels.wrap(result));
+        newDesriptionFragment.setArguments(args);
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+
+        fragmentTransaction.replace(R.id.fragment_container,newDesriptionFragment);
+       // fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+    }
+
+
+    }
+
+    public void setDataSource(List dataSource) {
+        mDataSource = dataSource;
+    }
+
+    public List getDataSource() {
+      return mDataSource;
+    }
+
 }

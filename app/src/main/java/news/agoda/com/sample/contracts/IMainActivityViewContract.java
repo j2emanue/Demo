@@ -11,5 +11,6 @@ import news.agoda.com.sample.Model.Result;
 public interface IMainActivityViewContract {
     void dataSetUpdated(List results);
     void goToDetailsActivity(Result data);
+    void showToast(int resource);
 
 }

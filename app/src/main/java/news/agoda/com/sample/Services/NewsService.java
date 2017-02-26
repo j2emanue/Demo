@@ -1,4 +1,4 @@
-package news.agoda.com.sample.contracts.Services;
+package news.agoda.com.sample.Services;
 
 import android.os.AsyncTask;
 
