@@ -7,7 +7,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@color/Aqua"
         android:orientation="vertical">
 
@@ -48,7 +48,7 @@
             android:layout_marginEnd="10dp"
             android:layout_marginStart="10dp"
             android:onClick="onFullStoryClicked"
-            android:text="Full Story"/>
+            android:text="@string/full_story"/>
 
     </LinearLayout>
 </ScrollView>

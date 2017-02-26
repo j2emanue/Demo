@@ -25,8 +25,8 @@ public class MainActivity
         implements IMainActivityViewContract, OnNewsItemSelectionChangeListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
-    MainActivityPresenter presenter;
-    boolean isTwoPane;
+    private MainActivityPresenter presenter;
+    private boolean isTwoPane;
     private List mDataSource;
 
     @Override
@@ -40,7 +40,7 @@ public class MainActivity
         newsService.setCallBack(presenter);
 
         if (savedInstanceState == null) {
-        if (findViewById(R.id.fragment_container) != null) {
+            if (findViewById(R.id.fragment_container) != null) {
 
                 // Create an Instance of Fragment
                 NewsListFragment newsListFragment = new NewsListFragment();
@@ -49,16 +49,12 @@ public class MainActivity
                         .add(R.id.fragment_container, newsListFragment, "newsListFragment")
                         .commit();
             }
-            presenter.loadResource();
-        }
-        else{
 
         }
-
-
-
-
+        getFragmentManager().executePendingTransactions();
+        presenter.loadResource();
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -86,29 +82,14 @@ public class MainActivity
     @Override
     public void dataSetUpdated(List results) {
         setDataSource(results);
-updateNewsListFragment();
+        updateNewsListFragment();
 
     }
 
     private void updateNewsListFragment() {
-        NewsListFragment newsListFragment = (NewsListFragment) getFragmentManager().findFragmentByTag("newsListFragment");
+        NewsListFragment newsListFragment = (NewsListFragment) getFragmentManager().findFragmentByTag(isTwoPane ? "newsListFragment_landscape" : "newsListFragment");
         newsListFragment.refreshList(getDataSource());
     }
-
-    /*
-    private void setupOnClickListener(final List results) {
-
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view1, int position, long id) {
-             //   presenter.goToDetailsActivity((Result) results.get(position));
-
-            }
-        });
-    }
-*/
 
     @Override
     public void goToDetailsActivity(Result data) {
@@ -122,40 +103,39 @@ updateNewsListFragment();
 
     @Override
     public void showToast(int resource) {
-        Toast.makeText(this,resource,Toast.LENGTH_LONG).show();
+        Toast.makeText(this, resource, Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void OnSelectionChanged(int index) {
 
-       Result result =  (Result)getDataSource().get(index);
-        if(isTwoPane){
+        Result result = (Result) getDataSource().get(index);
+        if (isTwoPane) {
             DetailViewFragment descriptionFragment = (DetailViewFragment) getFragmentManager()
                     .findFragmentById(R.id.description_fragment);
             descriptionFragment.updateResult(result);
-        }
-       else{
+        } else {
             DetailViewFragment newDesriptionFragment = new DetailViewFragment();
-        Bundle args = new Bundle();
+            Bundle args = new Bundle();
 
-        args.putParcelable(EXTRA_RESULTS_KEY, Parcels.wrap(result));
-        newDesriptionFragment.setArguments(args);
-        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+            args.putParcelable(EXTRA_RESULTS_KEY, Parcels.wrap(result));
+            newDesriptionFragment.setArguments(args);
+            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
 
-        fragmentTransaction.replace(R.id.fragment_container,newDesriptionFragment);
-       // fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
+            fragmentTransaction.replace(R.id.fragment_container, newDesriptionFragment);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+        }
+
+
     }
 
-
+    private List getDataSource() {
+        return mDataSource;
     }
 
-    public void setDataSource(List dataSource) {
+    private void setDataSource(List dataSource) {
         mDataSource = dataSource;
-    }
-
-    public List getDataSource() {
-      return mDataSource;
     }
 
 }

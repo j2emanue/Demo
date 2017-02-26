@@ -5,5 +5,5 @@ package news.agoda.com.sample.contracts;
  */
 
 public interface OnNewsItemSelectionChangeListener {
-    public void OnSelectionChanged(int index);
+     void OnSelectionChanged(int index);
 }

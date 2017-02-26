@@ -2,6 +2,7 @@ package news.agoda.com.sample;
 
 import android.content.Context;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,10 +19,10 @@ import java.util.List;
 import news.agoda.com.sample.Model.Multimedium;
 import news.agoda.com.sample.Model.Result;
 
-public class NewsListAdapter extends ArrayAdapter {
+ class NewsListAdapter extends ArrayAdapter {
 
-    Context context;
-    List<Result> results;
+   private Context context;
+    private List<Result> results;
 
     public NewsListAdapter(Context context, int resource, List<Result> results) {
         super(context, resource, results);
@@ -29,11 +30,12 @@ public class NewsListAdapter extends ArrayAdapter {
         this.results = results;
     }
 
+    @NonNull
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
         ViewHolder viewHolder;
-        String thumbnailURL = "";
+        String thumbnailURL;
 
 
         if (convertView == null) {
@@ -50,6 +52,7 @@ public class NewsListAdapter extends ArrayAdapter {
         Result newsEntity = (Result) getItem(position);
         List<Multimedium> mediaEntityList = newsEntity.getMultimedia();
 
+        //TODO: we should make a memory cache and some cache policy for the url images for faster load, think picasso has one
         if (!mediaEntityList.isEmpty()) {
             Multimedium mediaEntity = mediaEntityList.get(0);
             thumbnailURL = mediaEntity.getUrl();

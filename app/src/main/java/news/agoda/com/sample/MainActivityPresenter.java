@@ -1,20 +1,18 @@
 package news.agoda.com.sample;
 
-import android.widget.Toast;
-
 import news.agoda.com.sample.Model.NewsEntities;
 import news.agoda.com.sample.Model.Result;
+import news.agoda.com.sample.Services.NewsService;
 import news.agoda.com.sample.contracts.IMainActivityViewContract;
 import news.agoda.com.sample.contracts.IMainPresenterContract;
-import news.agoda.com.sample.Services.NewsService;
 
 /**
  * Created by jeffery.emanuel on 2017-02-24.
  */
 public class MainActivityPresenter implements IMainPresenterContract, Callback {
 
-    IMainActivityViewContract view;//todo set up a weak reference to View to avoid leakage
-    NewsService interactor;
+    private IMainActivityViewContract view;//todo set up a weak reference to View to avoid leakage
+    private NewsService interactor;
 
     public MainActivityPresenter(IMainActivityViewContract view, NewsService interactor) {
         this.view = view;
@@ -26,12 +24,12 @@ public class MainActivityPresenter implements IMainPresenterContract, Callback {
         interactor.loadResource();
     }
 
-
+    @Override
     public void onRequestComplete(final NewsEntities newsEntities) {
 
-        if(newsEntities!=null)
-        view.dataSetUpdated(newsEntities.getResults());
-    else
+        if (newsEntities != null)
+            view.dataSetUpdated(newsEntities.getResults());
+        else
             view.showToast(R.string.error);
     }
 
@@ -40,6 +38,7 @@ public class MainActivityPresenter implements IMainPresenterContract, Callback {
         onRequestComplete(newsEntities);
     }
 
+    @Override
     public void goToDetailsActivity(Result result) {
         view.goToDetailsActivity(result);
     }
